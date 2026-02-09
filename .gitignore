@@ -1,0 +1,4 @@
+/projenv/
+.streamlit/secrets.toml
+/supporting_codes/
+/documents/
