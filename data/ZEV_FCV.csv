@@ -1,0 +1,9 @@
+manufacturer,model,powertrain,gwv_t,dummy,gwv_t_max_t,gtw_t_raw,gtw_t,power_kW,energy_kWh,Single_Battery_Weight_kg,Battery_#,DC_Recaharg_kW,Recharge_Time,H2_kg,H2_pressure_bar,application,range_km:text,range_km,availability,segment
+IVECO,S-eWay Fuel Cell,FCEV,44t GCW,44,44,,0,400,,,,,,70,700,long haul/regional distribution,800,800,in series production,truck
+Daimler Truck,GenH2,FCEV,19–27t,19,19,40t,40,,,,,,,,,long haul,up to 1000 km,1000,100 customer units,truck
+Hyundai Truck,XCIENT 4x2,FCEV,19t,19,19,36t,36,,,,,,,,,long haul,400 km,400,in series production,truck
+Hyundai Truck,XCIENT 6x2,FCEV,27.5t,27,27,40t,40,,,,,,,,,long haul,400 km,400,in series production,truck
+MAN,Bayernflotte,FCEV,20t,20,20,42t,42,,,,,,,,,long haul,450–500 km,500,customer testing fleet (5 trucks) in 2026,truck
+Daimler Truck/Buses,eCitaro fuel cell Artic.,BEV/FCEV,30t,30,30,,0,,,,,,,,,city bus,up to 400 km,400,in series production,bus/coach
+Daimler Truck/Buses,eCitaro fuel cell Solo,BEV/FCEV,20t,20,20,,0,,,,,,,,,city bus,up to 400 km,400,in series production,bus/coach
+IVECO,E-WAY H2 12 m,FCEV,20t,20,20,,0,,,,,,,,,city bus heavy urban/urban,300–450 km with HVAC,450,in series production from 2025,bus/coach

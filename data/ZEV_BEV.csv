@@ -1,68 +1,68 @@
-manufacturer,segment,model,powertrain,gwv_t,dummy,gwv_t_max_t,gtw_t_raw,gtw_t,power_kW,energy_kWh,Single_Battery_Weight_kg,Battery_#,DC_Recaharg_kW,Recharge_Time,application,range_km,availability
-DAF Trucks NV,truck,XB Electric,BEV,12t,12,12.0,,0,,,,,,,urban/national distribution,up to 350 km,in series production
-DAF Trucks NV,truck,XB Electric,BEV,16t,16,16.0,,0,,,,,,,urban/national distribution,up to 350 km,in series production
-DAF Trucks NV,truck,XB Electric,BEV,19t,19,19.0,,0,,,,,,,urban/national distribution,up to 350 km,in series production
-DAF Trucks NV,truck,XD Electric,BEV,20.5t,20,20.0,50t,50,,,,,,,urban/regional/long haul,up to 500 km,in series production
-DAF Trucks NV,truck,XD Electric,BEV,21.5t,21,21.0,50t,50,,,,,,,urban/regional/long haul,up to 500 km,in series production
-DAF Trucks NV,truck,XD Electric,BEV,29t,29,29.0,50t,50,,,,,,,urban/regional/long haul,up to 500 km,in series production
-DAF Trucks NV,truck,XD Electric,BEV,29t,29,29.0,,0,,,,,,,urban/regional haul,up to 500 km,in series production
-DAF Trucks NV,truck,XF Electric,BEV,20.5t,20,20.0,50t,50,,,,,,,urban/regional/long haul,up to 500 km,in series production
-DAF Trucks NV,truck,XF Electric,BEV,29t,29,29.0,50t,50,,,,,,,urban/regional/long haul,up to 500 km,in series production
-Daimler Truck,truck,eCanter,BEV,7.49t,7.5,7.5,11t,11,,,,,,,urban delivery,100 km,in series production
-Daimler Truck,truck,eActros 300,BEV,19–27t,19,19.0,40t,40,,,,,,,regional delivery,300 km,in series production
-Daimler Truck,truck,eActros 400,BEV,19–27t,19,19.0,40t,40,,,,,,,regional delivery,400 km,in series production
-Daimler Truck,truck,eEconic 300,BEV,19–27t,19,19.0,40t,40,,,,,,,municipality/urban delivery,100–150 km,in series production
-Daimler Truck,truck,eActros 300 successor,BEV,19–27t,19,19.0,40t,40,,,,,,,regional delivery,300 km,in series production
-Daimler Truck,truck,eActros 400 successor,BEV,19–27t,19,19.0,40t,40,,,,,,,regional delivery,400 km,in series production
-Daimler Truck,truck,eActros 600,BEV,19–27t,19,19.0,40t,44,400,621,,3,,70,regional delivery/long haul,500 km,in series production
-Daimler Truck/Buses,bus/coach,eCitaro Solo,BEV,20t,20,20.0,,0,,,,,,,city bus,up to 360 km,in series production
-Daimler Truck/Buses,bus/coach,eCitaro Artic.,BEV,30t,30,30.0,,0,,,,,,,city bus,up to 300 km,in series production
-Daimler Truck/Buses,bus/coach,eO500U 2134,BEV,21.5t,21,21.0,,0,,,,,,,city bus (chassis),up to 350 km,in series production
-Daimler Truck/Buses,bus/coach,eCitaro K,BEV,19.5t,19,19.0,,0,,,,,,,city bus,up to 360 km,in series production
-Daimler Truck/Buses,bus/coach,eCitaro fuel cell Artic.,BEV/FCEV,30t,30,30.0,,0,,,,,,,city bus,up to 400 km,in series production
-Daimler Truck/Buses,bus/coach,eCitaro fuel cell Solo,BEV/FCEV,20t,20,20.0,,0,,,,,,,city bus,up to 400 km,in series production
-Daimler Truck/Buses,bus/coach,eIntouro,BEV,19.5t,19,19.0,,0,,,,,,,interurban bus,up to 500 km,delivery in 2026
-Ford Trucks,truck,F-Line E 4x2,BEV,19t,19,19.0,,0,,,,,,,regional,up to 250 km,series production in September 2025
-Ford Trucks,truck,F-Line E 6x2,BEV,27t,27,27.0,,0,,,,,,,regional,up to 300 km,series production in September 2025
-IVECO,truck,S-eWay,BEV,44t GCW,44,44.0,,13,480,490,408,7,350,,urban and regional application,up to 550 km,in series production
-IVECO,bus/coach,E-WAY 9 & 10 m,BEV,18t,18,18.0,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,in series production
-IVECO,bus/coach,E-WAY 12 m,BEV,20t,20,20.0,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,in series production
-IVECO,bus/coach,E-WAY 18 m,BEV,30t,30,30.0,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,in series production
-IVECO,bus/coach,CROSSWAY LE Elec Class I,BEV,20t,20,20.0,,0,,,,,,,city bus urban/suburban,200–300 km with HVAC,in series production
-IVECO,bus/coach,CROSSWAY LE Elec Class II,BEV,20t,20,20.0,,0,,,,,,,intercity bus suburban/interurban,300–350 km with HVAC,in series production
-IVECO,bus/coach,DAILY minibus,BEV,7.2t,7.,7.0,,0,,,,,,,minibus,200 km with HVAC,in series production
-MAN,truck,eTGX Tractor,BEV,18–20t,18,18.0,up to 60t,60,,,,,,,regional/long haul,up to 500 km,in series production
-MAN,truck,eTGS Tractor,BEV,18–20t,18,18.0,up to 60t,60,,,,,,,regional/long haul,up to 500 km,in series production
-MAN,truck,eTGX 4x2 Chassis,BEV,18–20t,18,18.0,up to 50t,50,,,,,,,urban/regional/long haul,up to 600 km,in series production
-MAN,truck,eTGS 4x2 Chassis,BEV,18–20t,18,18.0,up to 50t,50,,,,,,,urban/regional/long haul,up to 600 km,in series production
-MAN,truck,eTGX 6x2 Chassis,BEV,26–28t,26,26.0,up to 50t,50,,,,,,,urban/regional/long haul,up to 700 km,in series production
-MAN,truck,eTGS 6x2 Chassis,BEV,26–28t,26,26.0,up to 50t,50,,,,,,,urban/regional/long haul,up to 700 km,in series production
-MAN,bus/coach,Lion's City 10 E,BEV,19.5t,19,19.0,,0,,,,,,,city bus,up to 310 km,in series production
-MAN,bus/coach,Lion's City 12 E,BEV,19.5t,19,19.0,,0,,,,,,,city bus,up to 380 km,in series production
-MAN,bus/coach,Lion's City 18 E,BEV,29.9t,29,29.0,,0,,,,,,,city bus,up to 370 km,in series production
-MAN,bus/coach,Lion's City 12 E LE,BEV,19.5t,19,19.0,,0,,,,,,,city bus/suburban,up to 380 km,in series production from Q3 2025
-MAN,bus/coach,Lion's Coach 14 E,BEV,27.3t,27,27.0,,0,,,,,,,coach,up to 650 km,in series production from end 2026
-Renault Trucks,truck,E-Tech Trafic,BEV,3.1t,3.,3.1,,0,,,,,,,distribution,up to 300 km,in series production
-Renault Trucks,truck,E-Tech Master,BEV,3.5t,3.,3.0,,0,,,,,,,distribution,up to 200 km,in series production
-Renault Trucks,truck,E-Tech D,BEV,16t,16,16.0,,0,,,,,,,distribution,up to 560 km,in series production
-Renault Trucks,truck,E-Tech D WIDE,BEV,19t & 26t,19,19.0,,0,,,,,,,distribution & city construction,up to 560 km,in series production
-Renault Trucks,truck,E-Tech T,BEV,44t,44,44.0,,0,,,,,,,regional,up to 300 km,in series production
-Renault Trucks,truck,E-Tech C,BEV,44t,44,44.0,,0,,,,,,,urban construction,up to 300 km,in series production
-Scania,truck,"L, P",BEV,18–33t,18,18.0,36t,36,,,,,,,city,up to 350 km,in series production
-Scania,truck,"P, G, R",BEV,18–33t,18,18.0,up to 74t,74,,,,,,,construction,up to 350 km,in series production
-Scania,truck,"G, R",BEV,18–29t,18,18.0,up to 74t,74,,,,,,,regional,up to 450 km,in series production
-Scania,truck,"R, S",BEV,18–29t,18,18.0,up to 74t,74,,,,,,,long haul,up to 550 km,in series production
-Scania,bus/coach,K-chassis electric,BEV,19.5t,19,19.0,,0,,,,,,,urban bus,up to 500 km,in series production
-Scania,bus/coach,K-chassis electric,BEV,26t,26,26.0,,0,,,,,,,coach,up to 400 km,in series production from 2026
-Volvo Buses,bus/coach,7900 Electric,BEV,19.5t,19,19.0,,0,,,,,,,city bus,up to 500 km,in series production
-Volvo Buses,bus/coach,7900 Electric Articulated,BEV,30t,30,30.0,,0,,,,,,,city bus,up to 450 km,in series production
-Volvo Buses,bus/coach,BZL Electric,BEV,19.5t,19,19.0,,0,,,,,,,city bus,up to 500 km,in series production
-Volvo Trucks,truck,FH Aero Electric,BEV,44t,44,44.0,,0,,,,,,,regional,300 km,in series production
-Volvo Trucks,truck,FH Aero Electric,BEV,48t,48,48.0,,0,,,,,,,long haul,600 km,first orders from Q2 2026
-Volvo Trucks,truck,FH Electric,BEV,44t,44,44.0,,0,,,,,,,regional,300 km,in series production
-Volvo Trucks,truck,FH Electric,BEV,48t,48,48.0,,0,,,,,,,long haul,600 km,first orders from Q2 2026
-Volvo Trucks,truck,FM Electric,BEV,44t,44,44.0,,0,,,,,,,regional,300 km,in series production
-Volvo Trucks,truck,FMX Electric,BEV,44t,44,44.0,,0,,,,,,,construction,300 km,in series production
-Volvo Trucks,truck,FM Low Entry,BEV,32t,32,32.0,,0,,,,,,,city,200 km,in series production
-Volvo Trucks,truck,FE Electric,BEV,27t,27,27.0,,0,,,,,,,distribution,275 km,in series production
-Volvo Trucks,truck,FL Electric,BEV,18.6t,18,18.0,,0,,,,,,,distribution,450 km,in series production
+manufacturer,segment,model,powertrain,gwv_t,dummy,gwv_t_max_t,gtw_t_raw,gtw_t,power_kW,energy_kWh,Single_Battery_Weight_kg,Battery_#,DC_Recaharg_kW,Recharge_Time,application,range_string,range_km,availability
+DAF Trucks NV,truck,XB Electric,BEV,12t,12,12,,0,,,,,,,urban/national distribution,up to 350 km,350,in series production
+DAF Trucks NV,truck,XB Electric,BEV,16t,16,16,,0,,,,,,,urban/national distribution,up to 350 km,350,in series production
+DAF Trucks NV,truck,XB Electric,BEV,19t,19,19,,0,,,,,,,urban/national distribution,up to 350 km,350,in series production
+DAF Trucks NV,truck,XD Electric,BEV,20.5t,20,20,50t,50,,,,,,,urban/regional/long haul,up to 500 km,500,in series production
+DAF Trucks NV,truck,XD Electric,BEV,21.5t,21,21,50t,50,,,,,,,urban/regional/long haul,up to 500 km,500,in series production
+DAF Trucks NV,truck,XD Electric,BEV,29t,29,29,50t,50,,,,,,,urban/regional/long haul,up to 500 km,500,in series production
+DAF Trucks NV,truck,XD Electric,BEV,29t,29,29,,0,,,,,,,urban/regional haul,up to 500 km,500,in series production
+DAF Trucks NV,truck,XF Electric,BEV,20.5t,20,20,50t,50,,,,,,,urban/regional/long haul,up to 500 km,500,in series production
+DAF Trucks NV,truck,XF Electric,BEV,29t,29,29,50t,50,,,,,,,urban/regional/long haul,up to 500 km,500,in series production
+Daimler Truck,truck,eCanter,BEV,7.49t,7.5,7.5,11t,11,,,,,,,urban delivery,100 km,100,in series production
+Daimler Truck,truck,eActros 300,BEV,19–27t,19,19,40t,40,,,,,,,regional delivery,300 km,300,in series production
+Daimler Truck,truck,eActros 400,BEV,19–27t,19,19,40t,40,,,,,,,regional delivery,400 km,400,in series production
+Daimler Truck,truck,eEconic 300,BEV,19–27t,19,19,40t,40,,,,,,,municipality/urban delivery,100–150 km,150,in series production
+Daimler Truck,truck,eActros 300 successor,BEV,19–27t,19,19,40t,40,,,,,,,regional delivery,300 km,300,in series production
+Daimler Truck,truck,eActros 400 successor,BEV,19–27t,19,19,40t,40,,,,,,,regional delivery,400 km,400,in series production
+Daimler Truck,truck,eActros 600,BEV,19–27t,19,19,40t,44,400,621,,3,,70,regional delivery/long haul,500 km,500,in series production
+Daimler Truck/Buses,bus/coach,eCitaro Solo,BEV,20t,20,20,,0,,,,,,,city bus,up to 360 km,360,in series production
+Daimler Truck/Buses,bus/coach,eCitaro Artic.,BEV,30t,30,30,,0,,,,,,,city bus,up to 300 km,300,in series production
+Daimler Truck/Buses,bus/coach,eO500U 2134,BEV,21.5t,21,21,,0,,,,,,,city bus (chassis),up to 350 km,350,in series production
+Daimler Truck/Buses,bus/coach,eCitaro K,BEV,19.5t,19,19,,0,,,,,,,city bus,up to 360 km,360,in series production
+Daimler Truck/Buses,bus/coach,eCitaro fuel cell Artic.,BEV/FCEV,30t,30,30,,0,,,,,,,city bus,up to 400 km,400,in series production
+Daimler Truck/Buses,bus/coach,eCitaro fuel cell Solo,BEV/FCEV,20t,20,20,,0,,,,,,,city bus,up to 400 km,400,in series production
+Daimler Truck/Buses,bus/coach,eIntouro,BEV,19.5t,19,19,,0,,,,,,,interurban bus,up to 500 km,500,delivery in 2026
+Ford Trucks,truck,F-Line E 4x2,BEV,19t,19,19,,0,,,,,,,regional,up to 250 km,250,series production in September 2025
+Ford Trucks,truck,F-Line E 6x2,BEV,27t,27,27,,0,,,,,,,regional,up to 300 km,300,series production in September 2025
+IVECO,truck,S-eWay,BEV,44t GCW,44,44,,13,480,490,408,7,350,,urban and regional application,up to 550 km,550,in series production
+IVECO,bus/coach,E-WAY 9 & 10 m,BEV,18t,18,18,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,300,in series production
+IVECO,bus/coach,E-WAY 12 m,BEV,20t,20,20,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,300,in series production
+IVECO,bus/coach,E-WAY 18 m,BEV,30t,30,30,,0,,,,,,,city bus heavy urban/urban,200–300 km with HVAC,300,in series production
+IVECO,bus/coach,CROSSWAY LE Elec Class I,BEV,20t,20,20,,0,,,,,,,city bus urban/suburban,200–300 km with HVAC,300,in series production
+IVECO,bus/coach,CROSSWAY LE Elec Class II,BEV,20t,20,20,,0,,,,,,,intercity bus suburban/interurban,300–350 km with HVAC,350,in series production
+IVECO,bus/coach,DAILY minibus,BEV,7.2t,7,7,,0,,,,,,,minibus,200 km with HVAC,200,in series production
+MAN,truck,eTGX Tractor,BEV,18–20t,18,18,up to 60t,60,,,,,,,regional/long haul,up to 500 km,500,in series production
+MAN,truck,eTGS Tractor,BEV,18–20t,18,18,up to 60t,60,,,,,,,regional/long haul,up to 500 km,500,in series production
+MAN,truck,eTGX 4x2 Chassis,BEV,18–20t,18,18,up to 50t,50,,,,,,,urban/regional/long haul,up to 600 km,600,in series production
+MAN,truck,eTGS 4x2 Chassis,BEV,18–20t,18,18,up to 50t,50,,,,,,,urban/regional/long haul,up to 600 km,600,in series production
+MAN,truck,eTGX 6x2 Chassis,BEV,26–28t,26,26,up to 50t,50,,,,,,,urban/regional/long haul,up to 700 km,700,in series production
+MAN,truck,eTGS 6x2 Chassis,BEV,26–28t,26,26,up to 50t,50,,,,,,,urban/regional/long haul,up to 700 km,700,in series production
+MAN,bus/coach,Lion's City 10 E,BEV,19.5t,19,19,,0,,,,,,,city bus,up to 310 km,310,in series production
+MAN,bus/coach,Lion's City 12 E,BEV,19.5t,19,19,,0,,,,,,,city bus,up to 380 km,380,in series production
+MAN,bus/coach,Lion's City 18 E,BEV,29.9t,29,29,,0,,,,,,,city bus,up to 370 km,370,in series production
+MAN,bus/coach,Lion's City 12 E LE,BEV,19.5t,19,19,,0,,,,,,,city bus/suburban,up to 380 km,380,in series production from Q3 2025
+MAN,bus/coach,Lion's Coach 14 E,BEV,27.3t,27,27,,0,,,,,,,coach,up to 650 km,650,in series production from end 2026
+Renault Trucks,truck,E-Tech Trafic,BEV,3.1t,3,3.1,,0,,,,,,,distribution,up to 300 km,300,in series production
+Renault Trucks,truck,E-Tech Master,BEV,3.5t,3,3,,0,,,,,,,distribution,up to 200 km,200,in series production
+Renault Trucks,truck,E-Tech D,BEV,16t,16,16,,0,,,,,,,distribution,up to 560 km,560,in series production
+Renault Trucks,truck,E-Tech D WIDE,BEV,19t & 26t,19,19,,0,,,,,,,distribution & city construction,up to 560 km,560,in series production
+Renault Trucks,truck,E-Tech T,BEV,44t,44,44,,0,,,,,,,regional,up to 300 km,300,in series production
+Renault Trucks,truck,E-Tech C,BEV,44t,44,44,,0,,,,,,,urban construction,up to 300 km,300,in series production
+Scania,truck,"L, P",BEV,18–33t,18,18,36t,36,,,,,,,city,up to 350 km,350,in series production
+Scania,truck,"P, G, R",BEV,18–33t,18,18,up to 74t,74,,,,,,,construction,up to 350 km,350,in series production
+Scania,truck,"G, R",BEV,18–29t,18,18,up to 74t,74,,,,,,,regional,up to 450 km,450,in series production
+Scania,truck,"R, S",BEV,18–29t,18,18,up to 74t,74,,,,,,,long haul,up to 550 km,550,in series production
+Scania,bus/coach,K-chassis electric,BEV,19.5t,19,19,,0,,,,,,,urban bus,up to 500 km,500,in series production
+Scania,bus/coach,K-chassis electric,BEV,26t,26,26,,0,,,,,,,coach,up to 400 km,400,in series production from 2026
+Volvo Buses,bus/coach,7900 Electric,BEV,19.5t,19,19,,0,,,,,,,city bus,up to 500 km,500,in series production
+Volvo Buses,bus/coach,7900 Electric Articulated,BEV,30t,30,30,,0,,,,,,,city bus,up to 450 km,450,in series production
+Volvo Buses,bus/coach,BZL Electric,BEV,19.5t,19,19,,0,,,,,,,city bus,up to 500 km,500,in series production
+Volvo Trucks,truck,FH Aero Electric,BEV,44t,44,44,,0,,,,,,,regional,300 km,300,in series production
+Volvo Trucks,truck,FH Aero Electric,BEV,48t,48,48,,0,,,,,,,long haul,600 km,600,first orders from Q2 2026
+Volvo Trucks,truck,FH Electric,BEV,44t,44,44,,0,,,,,,,regional,300 km,300,in series production
+Volvo Trucks,truck,FH Electric,BEV,48t,48,48,,0,,,,,,,long haul,600 km,600,first orders from Q2 2026
+Volvo Trucks,truck,FM Electric,BEV,44t,44,44,,0,,,,,,,regional,300 km,300,in series production
+Volvo Trucks,truck,FMX Electric,BEV,44t,44,44,,0,,,,,,,construction,300 km,300,in series production
+Volvo Trucks,truck,FM Low Entry,BEV,32t,32,32,,0,,,,,,,city,200 km,200,in series production
+Volvo Trucks,truck,FE Electric,BEV,27t,27,27,,0,,,,,,,distribution,275 km,275,in series production
+Volvo Trucks,truck,FL Electric,BEV,18.6t,18,18,,0,,,,,,,distribution,450 km,450,in series production
