@@ -1,0 +1,11 @@
+country,network,currency,vehicle_class,terrain,unit_rate_eur_per_km,unit_rate_eur_per_km_inc_VAT,VAT,rate_effective_from,rate_effective_to,source_note
+IT,Autostrade per l'Italia,EUR,A,flatland,0.0645,0.07869,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,B,flatland,0.066016393,0.08054,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,3,flatland,0.087008197,0.10615,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,4,flatland,0.132032787,0.16108,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,5,flatland,0.156016393,0.19034,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,A,mountain,0.076352459,0.09315,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,B,mountain,0.078163934,0.09536,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,3,mountain,0.100983607,0.1232,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,4,mountain,0.155098361,0.18922,0.22,,,EUR/km
+IT,Autostrade per l'Italia,EUR,5,mountain,0.183909836,0.22437,0.22,,,EUR/km

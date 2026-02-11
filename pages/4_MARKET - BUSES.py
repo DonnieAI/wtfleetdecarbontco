@@ -55,8 +55,8 @@ color_map={
 }
 
 #✅------------------------DATA EXTRACTION-----------------------------------------------------
-SEGMENT="HDT"
-df_raw = pd.read_csv("data/HDT_ACEA_registration.csv", header=[0, 1])
+SEGMENT="BUSES"
+df_raw = pd.read_csv("data/BUS_ACEA_registration.csv", header=[0, 1])
 
 
 # Rename that multiindex column to ('country', '')
@@ -120,7 +120,7 @@ df_plot = df_latest.pivot_table(
 # ------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------------
-st.title(f"🚛 NEW {SEGMENT} REGISTRATIONS")
+st.title(f"🚌 NEW {SEGMENT} REGISTRATIONS")
 st.markdown(f"""
 ### 📈 New {SEGMENT} Registrations  
 """)

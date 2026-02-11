@@ -60,7 +60,7 @@ color_map={
 
 df = pd.read_csv("data/vehicle_data_full_data_set.csv", header=[0])
         # Store data
-print(df)
+#print(df)
 data = df.to_dict("records")
 # Create unique option lists
 categories = sorted(df["Category"].dropna().unique().tolist())
@@ -105,9 +105,6 @@ st.markdown(f"""
 st.markdown("""
 Source: ACEA — 2025 data
 """)
-
-
-
 
 selected_category = st.selectbox(
     "Select category",

@@ -119,7 +119,7 @@ df_plot = df_latest.pivot_table(
 # ------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------------
-st.title(f"🚚 NEW {SEGMENT} REGISTRATIONS")
+st.title(f"🚐 NEW {SEGMENT} REGISTRATIONS")
 st.markdown(f"""
 ### 📈 New {SEGMENT} Registrations  
 """)
