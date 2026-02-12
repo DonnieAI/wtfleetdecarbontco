@@ -17,6 +17,7 @@ from utils import tco_capex_vehicle_calculator
 from utils import tco_fuel_consumption_manually_calculator
 from utils import yearly_fuel_cost
 from utils import create_tco_template_from_data
+from utils import apply_driver_wages
 
 apply_style_and_logo()
 #import importlib, utils
@@ -62,7 +63,6 @@ color_map={
 
 tco_data_files=["data/vehicle_data_full_data_set.csv",
                 "data/fuel_consumption_manually.csv",
-                "data/fuels_prices_main_countries.csv",
                 "data/driver_wages.csv",
                 "data/tolls_simplified_assumptions.csv"]
 
@@ -75,9 +75,9 @@ vehicles = sorted(df["Category"].dropna().unique().tolist())
 years = sorted(df["Year"].dropna().unique().tolist())
 countries=sorted(["ITALY","GERMANY","AUSTRIA"])
 countries = {
-    "🇮🇹 ITALY": "ITALY",
-    "🇩🇪 GERMANY": "GERMANY",
-    "🇦🇹 AUSTRIA": "AUSTRIA"
+    "ITALY": "ITALY",
+    "GERMANY": "GERMANY",
+    "AUSTRIA": "AUSTRIA"
 }
 
 
@@ -137,7 +137,7 @@ st.divider()  # <--- Streamlit's built-in separator
 #-------------------------------------------------------
 st.subheader("🛣️ General Parameters")
 
-col1, col2 = st.columns(2)
+col1, col2, col3,col4 = st.columns(4)
 with col1:
     st.subheader("Time [years]")
     T = st.slider(
@@ -159,9 +159,32 @@ with col2:
         step=0.5,
         key="WACC"
     )
+    
+with col3:   
+    st.subheader("TOLLS EURO 0-VI [EUR/100 km]")
+    tolls_tarif_euro = st.slider(
+        "TOLLS EURO 0-VI",
+        min_value=0.0,
+        max_value=100.0,
+        value=32.5,
+        step=0.5,
+        key="tolls_tarif_euro"
+    )
+
+with col4:   
+    st.subheader("TOLLS  ZEV [EUR/100 km]")
+    tolls_tarif_zev = st.slider(
+        "TOLLS  ZEV",
+        min_value=0.0,
+        max_value=50.0,
+        value=0.0,
+        step=0.5,
+        key="tolls_tarif_zev"
+    )
 
 
-#------------------calculate & merge total_capex
+
+#-1️⃣-----------------calculate & merge total_capex
 df_capex = tco_capex_vehicle_calculator(df, selected_vehicle, selected_year)
 
 
@@ -172,8 +195,12 @@ df_tco_master = df_tco_master.merge(
     suffixes=("", "_new")
 )
 # Replace the empty column with the computed one
-df_tco_master["capex_total"] = df_tco_master["capex_total_new"]
-# Drop helper column
+df_tco_master["capex_total"] = (
+    pd.to_numeric(df_tco_master["capex_total_new"], errors="coerce")
+    .round(0)
+    .astype("Int64")   # nullable integer (safe)
+)
+
 df_tco_master.drop(columns=["capex_total_new"], inplace=True)
 #----------------------------------------------------------------
 
@@ -234,7 +261,7 @@ with col4:
     )
     
 
-
+#2️⃣FUEL COSTS------------------------------
 df_fuel_cost = yearly_fuel_cost(
         df_consumptions,
         diesel_price,
@@ -265,6 +292,24 @@ df_tco_master["annual_fuel_cost"] = df_tco_master["annual_fuel_cost_new"]
 # Drop helper column
 df_tco_master.drop(columns=["annual_fuel_cost_new"], inplace=True)
 #----------------------------------------------------------------
+
+#3️⃣TOLL-------------------------------
+
+toll_map = {
+        "ICE-D": tolls_tarif_euro,
+        "ICE-NG": tolls_tarif_euro,
+        "BET": tolls_tarif_zev,
+        "FCET": tolls_tarif_zev
+}
+df_tco_master["annual_toll_cost"] = df_tco_master["Technology"].map(toll_map)*df_tco_master["annual_km_user"]/100
+
+
+#4️⃣WAGES-----------------------------
+df_wages = pd.read_csv(tco_data_files[2], header=[0])   #Unitary_Wage_km
+df_tco_master = apply_driver_wages(df_tco_master, df_wages)
+
+
+
 
 
 def tco_calculator(i: float, T: int, df: pd.DataFrame) -> pd.DataFrame:
@@ -297,15 +342,23 @@ def tco_calculator(i: float, T: int, df: pd.DataFrame) -> pd.DataFrame:
     CRF = (i * (1 + i) ** T) / (((1 + i) ** T) - 1) if i != 0 else (1 / T)
     discount_factor = sum(1 / ((1 + i) ** t) for t in range(1, T + 1)) if i != 0 else T
 
-    # CAPEX component (annualized capex / annual km)
+    # 1️⃣CAPEX component (annualized capex / annual km)
     out["TCO_CAPEX_EUR_per_km"] = (out["capex_total"] * CRF) / out["annual_km_user"]
-
-    # Fuel component: discounted fuel over lifetime / (total km over lifetime)
+    # 2️⃣FUEL component: discounted fuel over lifetime / (total km over lifetime)
     out["Total_discounted_fuel"] = out["annual_fuel_cost"] * discount_factor
     out["TCO_FUEL_EUR_per_km"] = out["Total_discounted_fuel"] / (out["annual_km_user"] * T)
-
+    #3️⃣TOLL
+    out["TCO_TOLL_EUR_per_km"]=out["annual_toll_cost"]/out["annual_km_user"]
+    #3️⃣WAGES
+    out["TCO_WAGES_EUR_per_km"]=out["annual_driver_cost"]/out["annual_km_user"]
+    
+    
+    
     # Total
-    out["TCO_TOTAL_EUR_per_km"] = out["TCO_CAPEX_EUR_per_km"] + out["TCO_FUEL_EUR_per_km"]
+        
+    out["TCO_TOTAL_EUR_per_km"] = out["TCO_CAPEX_EUR_per_km"] + out["TCO_FUEL_EUR_per_km"] +\
+        out["TCO_TOLL_EUR_per_km"]+out["TCO_WAGES_EUR_per_km"]
+    
 
     return out
 
@@ -327,7 +380,7 @@ fig.add_trace(
             x=df_tco["TCO_CAPEX_EUR_per_km"],
             name="CAPEX",
             orientation="h",
-            marker=dict(color=palette_blue[2]),
+            marker=dict(color=palette_blue[0]),
         )
     )
 
@@ -338,19 +391,73 @@ fig.add_trace(
             x=df_tco["TCO_FUEL_EUR_per_km"],
             name="Fuel",
             orientation="h",
-            marker=dict(color=palette_blue[4]),
+            marker=dict(color=palette_green[0]),
         )
     )
+
+fig.add_trace(
+        go.Bar(
+            y=df_tco["Technology"],
+            x=df_tco["TCO_TOLL_EUR_per_km"],
+            name="Toll",
+            orientation="h",
+            marker=dict(color=palette_other[0]),
+        )
+    )
+
+fig.add_trace(
+        go.Bar(
+            y=df_tco["Technology"],
+            x=df_tco["TCO_WAGES_EUR_per_km"],
+            name="Wages",
+            orientation="h",
+            marker=dict(color=palette_blue[1]),
+        )
+    )
+
+
+fig.add_trace(
+        go.Scatter(
+            y=df_tco["Technology"],
+            x=df_tco["TCO_TOTAL_EUR_per_km"],
+            mode="markers",
+            name="Total TCO",
+            marker=dict(
+                symbol="diamond",
+                size=12,
+                color="red",
+                line=dict(width=3, color="white")
+            ),
+        )
+    )
+
 
 fig.update_layout(
         barmode="stack",
         title="TCO Breakdown (EUR/km)",
+        height=700,
         xaxis_title="EUR / km",
         yaxis_title="Technology",
         template="plotly_white",
-        height=500,
         legend_title="Component",
         margin=dict(l=40, r=40, t=60, b=40),
     )
 
+fig.update_layout(
+    template="plotly_white",
+    xaxis=dict(
+        showgrid=True,
+        gridcolor="white",
+        gridwidth=1,
+        dtick=0.1   # 👈 tick spacing = 0.2 EUR
+    )
+)
+
 st.plotly_chart(fig, use_container_width=True)
+
+
+st.dataframe(
+    df_tco_master,
+    use_container_width=True,
+    hide_index=True
+)

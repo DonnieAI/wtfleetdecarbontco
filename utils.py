@@ -164,5 +164,23 @@ def create_tco_template_from_data(
     df_template["consumption_per_100km"] = pd.NA
     df_template["annual_consumption_user"] = pd.NA
     df_template["annual_fuel_cost"] = pd.NA
+    df_template["annual_toll_cost"]=pd.NA
+    df_template["annual_wages_cost"]=pd.NA
 
     return df_template
+
+def apply_driver_wages(df_master: pd.DataFrame, df_wages: pd.DataFrame):
+
+    df = df_master.copy()
+
+    # Merge on Country + Year
+    df = df.merge(
+        df_wages[["Country", "Year", "Unitary_Wage_km"]],
+        on=["Country", "Year"],
+        how="left"
+    )
+
+    # Compute annual driver cost
+    df["annual_driver_cost"] = df["Unitary_Wage_km"] * df["annual_km_user"]
+
+    return df

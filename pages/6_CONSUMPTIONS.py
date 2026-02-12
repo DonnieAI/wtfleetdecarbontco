@@ -82,7 +82,7 @@ selected_category = st.selectbox(
 selected_year = st.selectbox(
     "Select year",
     years,
-    index=years.index(2025) if 2025 in years else 0,
+    index=years.index(2026) if 2026 in years else 0,
     key="year_selector"
 )
 

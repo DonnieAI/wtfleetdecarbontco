@@ -230,7 +230,6 @@ with col3:
 #---------------------------------------------------------------
 
 
-
 df_it_filtered["unit_rate_eur_per_km"]
 df_de_filtered["rate_cent_per_km"]
 df_at_filtered["rate_total_eur_per_km"]
