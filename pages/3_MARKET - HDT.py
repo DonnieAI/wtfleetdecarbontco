@@ -122,7 +122,7 @@ df_plot = df_latest.pivot_table(
 #-----------------------------------------------------------------------------------------------------
 st.title(f"🚛 NEW {SEGMENT} REGISTRATIONS")
 st.markdown(f"""
-### 📈 New {SEGMENT} Registrations  
+### 📈 New {SEGMENT} Registrations | Heavy commercials vehicles higher than 16 t
 """)
 st.markdown("""
 Source: ACEA — 2025 data

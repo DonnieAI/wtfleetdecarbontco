@@ -57,7 +57,6 @@ color_map={
 
 #✅------------------------DATA EXTRACTION----------------------------
 
-
 VEHICLE_CLASS_MAP = {
     "LDT": {
         "AT": "2",                 # 2 axles
@@ -76,41 +75,23 @@ VEHICLE_CLASS_MAP = {
     }
 }
 
-
+#----------ITALY---------------------------------------------------
 df_it=pd.read_csv("data/tolls_it.csv", header=[0])
-terrain = sorted(df_it["terrain"].dropna().unique().tolist())
+vehicle_class_it=sorted(df_it["vehicle_class"].dropna().unique().tolist())
+terrain_category = sorted(df_it["terrain"].dropna().unique().tolist())
 
-
+#---------GERMANY----------------------------------------------------
 df_de=pd.read_csv("data/tolls_de.csv", header=[0])
+co2_classes_de = sorted(df_de["co2_class"].dropna().unique().tolist())
+weight_band_classes_de = sorted(df_de["weight_band"].dropna().unique().tolist())
 axle_band_de = sorted(df_de["axle_band"].dropna().unique().tolist())
 
+#---------AUSTRIA----------------------------------------------------
 df_at=pd.read_csv("data/tolls_at.csv", header=[0])
+co2_classes_at = sorted(df_at["co2_class"].dropna().unique().tolist())
 axle_category_at = sorted(df_at["axle_category"].dropna().unique().tolist())
 
-
-#-------------------------------
-st.title(f"🚚  TOLLS")
-st.markdown(f"""
-### 📈 TOLLS
-""")
-st.markdown("""
-Source: ACEA — 2025 data
-""")
-
-
-
 categories = ["LDT","MDT","HDT","BUSES"]
-selected_category = st.selectbox(
-    "Select category",
-    categories,
-    index=categories.index("HDT") if "HDT" in categories else 0,
-    key="category_selector"
-)
-
-it_class = VEHICLE_CLASS_MAP[selected_category]["IT"]
-de_class = VEHICLE_CLASS_MAP[selected_category]["DE"]
-at_class = VEHICLE_CLASS_MAP[selected_category]["AT"]
-
 EURO_CLASSES = [
     "EuroVI",
     "EuroV_EEV",
@@ -123,59 +104,140 @@ EURO_CLASSES = [
 
 CO2_CLASSES=[1,2,3,4,5]
 
-selected_euro_class = st.selectbox(
-    "Select EURO CLASS",
+#-------------------------------
+st.title(f"🚚  TOLLS")
+st.markdown(f"""
+### 📈 TOLLS
+""")
+st.markdown("""
+Source: ACEA — 2025 data
+""")
+
+
+
+selected_category = st.selectbox(
+    "Select category",
+    categories,
+    index=categories.index("HDT") if "HDT" in categories else 0,
+    key="category_selector"
+)
+
+
+#it_class = VEHICLE_CLASS_MAP[selected_category]["IT"]
+#de_class = VEHICLE_CLASS_MAP[selected_category]["DE"]
+#at_class = VEHICLE_CLASS_MAP[selected_category]["AT"]
+
+# --- Country Specific parameter for tolls ---
+st.subheader("🛣️ Tolls Country Features")
+
+col1, col2, col3 = st.columns(3)
+with col1:
+  st.subheader("🇮🇹 Italy") 
+  
+  selected_vehicle_class_it= st.selectbox(
+    "🇮🇹 Select vehicle class",
+    vehicle_class_it,
+    index=vehicle_class_it.index("A") if "A" in vehicle_class_it else 0,
+    key="selected_vehicle_class_it"
+   ) 
+  
+  
+  selected_terrain_it= st.selectbox(
+    "🇮🇹 Select terrain IT",
+    terrain_category,
+    index=terrain_category.index("flatland") if "flatland" in terrain_category else 0,
+    key="selected_terrain_it_selector"
+   ) 
+  df_it_filtered = df_it[
+        (df_it["vehicle_class"] == selected_vehicle_class_it) &
+        (df_it["terrain"] == selected_terrain_it)
+    ] 
+   
+
+
+with col2:
+  st.subheader("🇩🇪 Germany") 
+  
+  selected_co2_class_de = st.selectbox(
+    "🇩🇪 CO2 CLASS",
+    co2_classes_de,
+    index=co2_classes_de.index(4) if 4 in co2_classes_de else 0,
+    key="selected_co2_class_de_selector"
+   ) 
+  
+  selected_euro_classes_de= st.selectbox(
+    "🇪🇺 EURO CLASSES",
     EURO_CLASSES,
     index=EURO_CLASSES.index("EuroVI") if "EuroVI" in EURO_CLASSES else 0,
-    key="euro_classes_selector"
-)
-
-selected_co2_class = st.selectbox(
-    "Select CO2 CLASS",
-    CO2_CLASSES,
-    index=CO2_CLASSES.index(4) if 4 in CO2_CLASSES else 0,
-    key="co2_class_selector"
-)
-
-selected_terrain_it= st.selectbox(
-    "Select terrain IT",
-    terrain,
-    index=terrain.index("flatland") if "flatland" in terrain else 0,
-    key="terrain_selector"
-)
-
-
-selected_axle_de= st.selectbox(
-    "Select axle DE",
+    key="selected_euro_classes_de_selector"
+    )
+    
+  selected_weight_band_classes= st.selectbox(
+    "🇩🇪 WEIGHT BAND CLASS",
+    weight_band_classes_de,
+    index=weight_band_classes_de.index(">18t") if ">18t" in weight_band_classes_de else 0,
+    key="selected_axle_de_selector"
+    )
+    
+  selected_axle_de= st.selectbox(
+    "🇩🇪 AXLE BAND",
     axle_band_de,
     index=axle_band_de.index("4 axles") if "4 axles" in axle_band_de else 0,
     key="axle_band_de_selector"
-)
+    )
 
+  df_de_filtered = df_de[
+      
+    (df_de["co2_class"]== selected_co2_class_de) &
+    (df_de["euro_class"] == selected_euro_classes_de) &
+    (df_de["weight_band"] == selected_weight_band_classes) &
+    (df_de["axle_band"] ==selected_axle_de) 
+    ]
+  
+with col3:
+  st.subheader("🇦🇹 Austria") 
 
+  selected_euro_classes_at= st.selectbox(
+    "🇪🇺 EURO CLASSES",
+    EURO_CLASSES,
+    index=EURO_CLASSES.index("EuroVI") if "EuroVI" in EURO_CLASSES else 0,
+    key="elected_euro_classes_at_selector"
+    )
+  
+  
+  selected_co2_class_at = st.selectbox(
+    "🇦🇹 CO2 CLASS",
+    co2_classes_at,
+    index=co2_classes_at.index(4) if 4 in co2_classes_at else 0,
+    key="sselected_co2_class_at_selector"
+   ) 
 
-df_it_filtered = df_it[
-    (df_it["vehicle_class"] == it_class) &
-    (df_it["terrain"] == selected_terrain_it)
-]
-
-df_de_filtered = df_de[
-    (df_de["weight_band"] == de_class) &
-    (df_de["euro_class"] == selected_euro_class) &
-    (df_de["axle_band"] ==selected_axle_de) &
-    (df_de["co2_class"]== selected_co2_class)
-]
-
-df_at_filtered = df_at[
-    (df_at["axle_category"] == at_class) &
-    (df_at["emission_standard"] == selected_euro_class) &
-    (df_at["co2_class"]== selected_co2_class)
+  selected_axle_at= st.selectbox(
+    "🇦🇹 AXLE BAND",
+    axle_category_at,
+    index=axle_category_at.index("4plus") if "4 axles" in axle_category_at else 0,
+    key="aselected_axle_at"
+    )
+    
+  df_at_filtered = df_at[
+    (df_at["axle_category"] == selected_axle_at) &
+    (df_at["euro_class"] == selected_euro_classes_at) &
+    (df_at["co2_class"]== selected_co2_class_at)
    
 ]
+
+
+#---------------------------------------------------------------
+
+
 
 df_it_filtered["unit_rate_eur_per_km"]
 df_de_filtered["rate_cent_per_km"]
 df_at_filtered["rate_total_eur_per_km"]
+
+it_vat=df_it_filtered["VAT"].iloc[0]
+de_vat=df_de_filtered["VAT"].iloc[0]
+at_vat=df_at_filtered["VAT"].iloc[0]
 
 it_value = df_it_filtered["unit_rate_eur_per_km"].iloc[0] if not df_it_filtered.empty else 0
 
@@ -186,9 +248,9 @@ de_value = (
 
 at_value = df_at_filtered["rate_total_eur_per_km"].iloc[0] if not df_at_filtered.empty else 0
 
-it_100 = it_value * 100
-de_100 = de_value * 100
-at_100 = at_value * 100
+it_100 = it_value *(1+it_vat) * 100
+de_100 = de_value * (1+de_vat)*100
+at_100 = at_value *(1+at_vat)* 100
 
 
 df_compare = pd.DataFrame({

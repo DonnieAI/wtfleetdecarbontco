@@ -1,4 +1,4 @@
-country,system,effective_from,effective_to,currency,vat_excluded,vat_rate,vehicle_type,axle_category,co2_class,emission_standard,rate_total_eur_per_km,rate_infrastructure_eur_per_km,rate_air_noise_eur_per_km,rate_co2_eur_per_km,source_page_total,source_page_infra_airnoise,source_page_co2,VAT
+country,system,effective_from,effective_to,currency,vat_excluded,vat_rate,vehicle_type,axle_category,co2_class,euro_class,rate_total_eur_per_km,rate_infrastructure_eur_per_km,rate_air_noise_eur_per_km,rate_co2_eur_per_km,source_page_total,source_page_infra_airnoise,source_page_co2,VAT
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,HGV_motorhome,2,5,ZEV,0.0587,0.0547,0.004,0,1,2,3,0.2
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,HGV_motorhome,3,5,ZEV,0.0806,0.0766,0.004,0,1,2,3,0.2
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,HGV_motorhome,4plus,5,ZEV,0.1189,0.1149,0.004,0,1,2,3,0.2
@@ -56,4 +56,3 @@ AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,HGV_motorhome,4plus,1,Euro0,0.6654,0.4591,0.
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,Bus,2,1,Euro0,0.3142,0.2186,0.056,0.0396,1,2,3,0.2
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,Bus,3,1,Euro0,0.436,0.306,0.077,0.053,1,2,3,0.2
 AT,GO-Maut,01/01/2026,,EUR,TRUE,0.2,Bus,4plus,1,Euro0,0.6396,0.4591,0.103,0.0775,1,2,3,0.2
-,,,,,,,,,,,,,,,,,,
