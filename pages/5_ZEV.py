@@ -57,26 +57,26 @@ color_map={
 
 #✅------------------------DATA EXTRACTION-----------------------------------------------------
 # 1. Read CSV with 2 header rows
-df_ev = pd.read_csv("data/ZEV_BEV.csv", header=[0])
+df = pd.read_csv("data/ZEV_LowEmission_Models.csv", header=0).dropna()
 
-segment_list = sorted(df_ev["segment"].unique())
-df_ev["energy_kWh_clean"] = df_ev["energy_kWh"].fillna(0)
+#segment_list = sorted(df_ev["segment"].unique())
+#df_ev["energy_kWh_clean"] = df_ev["energy_kWh"].fillna(0)
 
-max_energy = df_ev["energy_kWh_clean"].max()
+#max_energy = df_ev["energy_kWh_clean"].max()
 
-if max_energy > 0:
-    df_ev["marker_size"] = 10 + 30 * (df_ev["energy_kWh_clean"] / max_energy)
-else:
-    df_ev["marker_size"] = 10
+#if max_energy > 0:
+#    df_ev["marker_size"] = 10 + 30 * (df_ev["energy_kWh_clean"] / max_energy)
+#else:
+#    df_ev["marker_size"] = 10
 
 # ------------------------------------------------------------
 # Streamlit output
 # ------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------------
-st.title(f"🚚  ZERO EMISSIONS VEHICLES")
+st.title(f"🚚  ZERO EMISSIONS & LOW EMISSIONS VEHICLES")
 st.markdown(f"""
-### 📈 EV  
+### 📈 sdfdfdfs  
 """)
 st.markdown("""
 Source: ACEA — 2025 data
@@ -84,7 +84,7 @@ Source: ACEA — 2025 data
 
 
 # 1) Segment selector
-segments = sorted(df_ev["segment"].unique())
+segments = sorted(df["SEGMENT"].unique())
 selected_segment = st.selectbox(
     "Select segment",
     segments,
@@ -93,7 +93,7 @@ selected_segment = st.selectbox(
 )
 
 # 2) Filter data
-df_f = df_ev[df_ev["segment"] == selected_segment].copy()
+df_f = df[df["SEGMENT"] == selected_segment].copy()
 
 # 3) Build a stable color map (same manufacturer => same color)
 palette = [
@@ -101,45 +101,37 @@ palette = [
     "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
 ]
 
-manufacturers_all = sorted(df_ev["manufacturer"].unique())
-color_map = {m: palette[i % len(palette)] for i, m in enumerate(manufacturers_all)}
+manufacturers_all = sorted(df["MANUFACTURER"].unique())
+technology_all=sorted(df["TECHNOLOGY"].unique())
+color_map = {m: palette[i % len(palette)] for i, m in enumerate(technology_all)}
 
 # 4) Build go.Figure with one trace per manufacturer
 fig_ev = go.Figure()
 
-for m in sorted(df_f["manufacturer"].unique()):
-    d = df_f[df_f["manufacturer"] == m]
+for m in sorted(df_f["TECHNOLOGY"].unique()):
+    d = df_f[df_f["TECHNOLOGY"] == m]
 
     fig_ev.add_trace(
         go.Scatter(
-            x=d["range_km"],
-            y=d["gwv_t_max_t"],
+            x=d["ENERGY"],
+            y=d["RANGE"],
             mode="markers",
             name=m,
             marker=dict(
-                    size=d["marker_size"],
+                    size=15,
                     color=color_map[m],
                     opacity=0.8,
                     line=dict(width=0.5, color="black")
                 ),
-                            # Optional: richer hover
-            hovertemplate=(
-                "Manufacturer: %{text}<br>"
-                "Range (km): %{x}<br>"
-                "Max GVW (t): %{y}<br>"
-                "Model: %{customdata[0]}<br>"
-                "Powertrain: %{customdata[1]}<extra></extra>"
-            ),
-            text=[m] * len(d),
-            customdata=d[["model", "powertrain"]].to_numpy(),
+
         )
     )
 
 # 5) Layout
 fig_ev.update_layout(
     title=f"Range vs Max GVW — Segment: {selected_segment}",
-    xaxis_title="Range (km)",
-    yaxis_title="Max GVW (t)",
+    xaxis_title="Energy (kWh)",
+    yaxis_title="Max Range (km)",
     template="plotly_white",
     legend_title="Manufacturer",
     margin=dict(l=40, r=20, t=60, b=40),
@@ -147,84 +139,3 @@ fig_ev.update_layout(
 
 st.plotly_chart(fig_ev, use_container_width=True)
 
-#--------------------------------------------------------------------------------------------
-st.divider()  # <--- Streamlit's built-in separator
-#---------------------------------------------------------------------------------------------
-
-df_fc = pd.read_csv("data/ZEV_FCV.csv", header=0)
-
-# --- Marker sizing based on H2_kg ---
-df_fc["H2_kg_clean"] = df_fc["H2_kg"].fillna(0)
-h2_energy_max = df_fc["H2_kg_clean"].max()
-
-if h2_energy_max > 0:
-    df_fc["marker_size"] = 10 + 30 * (df_fc["H2_kg_clean"] / h2_energy_max)
-else:
-    df_fc["marker_size"] = 10
-
-st.markdown("### 📈 FUEL CELLS")
-st.markdown("Source: ACEA — 2025 data")
-
-# 1) Segment selector (use df_fc, not df_ev)
-segment_list = sorted(df_fc["segment"].unique())
-#selected_segment_fc = st.selectbox("Select segment (FC)", segment_list, key="seg_fc")
-selected_segment_fc = st.selectbox(
-    "Select segment",
-    segment_list,
-    index=segment_list.index("truck") if "truck" in segment_list else 0,
-    key="segment_selector_fc"
-)
-# 2) Filter data
-df_f = df_fc[df_fc["segment"] == selected_segment_fc].copy()
-
-# 3) Stable color map by manufacturer (use df_fc or union)
-palette = [
-    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-    "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
-]
-
-manufacturers_all = sorted(df_fc["manufacturer"].unique())
-color_map = {m: palette[i % len(palette)] for i, m in enumerate(manufacturers_all)}
-
-# 4) Build go.Figure
-fig_fc = go.Figure()
-
-for m in sorted(df_f["manufacturer"].unique()):
-    d = df_f[df_f["manufacturer"] == m]
-
-    fig_fc.add_trace(
-        go.Scatter(
-            x=d["range_km"],
-            y=d["gwv_t_max_t"],
-            mode="markers",
-            name=m,
-            marker=dict(
-                size=d["marker_size"],
-                color=color_map[m],
-                opacity=0.8,
-                line=dict(width=0.5, color="black"),
-            ),
-            hovertemplate=(
-                "Manufacturer: %{text}<br>"
-                "Range (km): %{x}<br>"
-                "Max GVW (t): %{y}<br>"
-                "Model: %{customdata[0]}<br>"
-                "Powertrain: %{customdata[1]}<br>"
-                "H2 (kg): %{customdata[2]}<extra></extra>"
-            ),
-            text=[m] * len(d),
-            customdata=d[["model", "powertrain", "H2_kg_clean"]].to_numpy(),
-        )
-    )
-
-# 5) Layout
-fig_fc.update_layout(
-    title=f"Range vs Max GVW — Segment: {selected_segment_fc}",
-    xaxis_title="Range (km)",
-    yaxis_title="Max GVW (t)",
-    template="plotly_white",
-    legend_title="Manufacturer",
-    margin=dict(l=40, r=20, t=60, b=40),
-)
-
-st.plotly_chart(fig_fc, use_container_width=True)

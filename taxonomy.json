@@ -1,0 +1,74 @@
+{
+  "segments": [
+    {
+      "segment_id": "LDT_urban",
+      "vehicle_class": "LDT",
+      "gvw_range_tons": "<7.5",
+      "vecto_group": "N1/N2",
+      "vehicle_type": "rigid",
+      "mission_profile": "urban_delivery",
+      "annual_km": 30000,
+      "daily_km": 100
+    },
+    {
+      "segment_id": "MDT_urban",
+      "vehicle_class": "MDT",
+      "gvw_range_tons": "7.5-16",
+      "vecto_group": "Rigid_4x2",
+      "vehicle_type": "rigid",
+      "mission_profile": "urban_distribution",
+      "annual_km": 40000,
+      "daily_km": 130
+    },
+    {
+      "segment_id": "MDT_regional",
+      "vehicle_class": "MDT",
+      "gvw_range_tons": "7.5-16",
+      "vecto_group": "Rigid_4x2_or_6x2",
+      "vehicle_type": "rigid",
+      "mission_profile": "regional_delivery",
+      "annual_km": 70000,
+      "daily_km": 230
+    },
+    {
+      "segment_id": "HDT_regional",
+      "vehicle_class": "HDT",
+      "gvw_range_tons": "18-26",
+      "vecto_group": "Rigid_group_9_10",
+      "vehicle_type": "rigid",
+      "mission_profile": "regional_freight",
+      "annual_km": 90000,
+      "daily_km": 300
+    },
+    {
+      "segment_id": "HDT_longhaul",
+      "vehicle_class": "HDT",
+      "gvw_range_tons": "40-44",
+      "vecto_group": "Tractor_group_4_5",
+      "vehicle_type": "tractor_trailer",
+      "mission_profile": "long_haul",
+      "annual_km": 130000,
+      "daily_km": 430
+    },
+    {
+      "segment_id": "BUS_urban",
+      "vehicle_class": "BUS",
+      "gvw_range_tons": "12-18",
+      "vecto_group": "Urban_bus",
+      "vehicle_type": "bus",
+      "mission_profile": "city_bus",
+      "annual_km": 60000,
+      "daily_km": 200
+    },
+    {
+      "segment_id": "BUS_coach",
+      "vehicle_class": "BUS",
+      "gvw_range_tons": ">18",
+      "vecto_group": "Coach",
+      "vehicle_type": "bus",
+      "mission_profile": "intercity_coach",
+      "annual_km": 90000,
+      "daily_km": 300
+    }
+  ]
+}

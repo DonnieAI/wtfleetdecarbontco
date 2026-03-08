@@ -1,0 +1,7 @@
+manufacturer,model,powertrain,gwv_t,dummy,GVW,gtw_t_raw,gtw_t,power_kW,energy_kWh,Recharge_Time,H2_kg,H2_pressure_bar,application,range_km:text,range_km,availability,segment
+IVECO,S-WAY,LNG,,,,,,,,,,,,,,,
+SCANIA,Serie G,,,,,,,,,,,,,,,,
+SCANIA,Serie P,,,,,,,,,,,,,,,,
+SCANIA,Serie R,,,,,,,,,,,,,,,,
+VOLVO,FH,,,,,,,,,,,,,,,,
+VOLVO,FM,,,,,,,,,,,,,,,,

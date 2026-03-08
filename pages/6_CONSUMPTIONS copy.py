@@ -1,10 +1,13 @@
 import streamlit as st
+import plotly.graph_objects as go
 import pandas as pd
 from pathlib import Path
 import os
 from datetime import datetime
 import streamlit as st
 import plotly.graph_objects as go
+import plotly.express as px 
+from pathlib import Path
 from plotly.subplots import make_subplots
 import numpy as np
 
@@ -61,81 +64,48 @@ categories = sorted(df["Category"].dropna().unique().tolist())
 years = sorted(df["Year"].dropna().unique().tolist())
 
 
-st.title(f"🚚   CONSUMPTIONS")
+st.title(f"🚚  ZERO EMISSIONS VEHICLES - CONSUMPTIONS")
 st.markdown(f"""
 ### 📈 CONSUMPTIONS  
 """)
 st.markdown("""
-Source: Wavetransition elaboration
+Source: ACEA — 2025 data
 """)
 
-
-st.subheader("Gross Combination Weight - GCW [t]")
-GCW = st.slider(
-        "GCW [t]",
-        min_value=10,
-        max_value=50,
-        value=40,
-        step=1,
-        key="GCW"
-    )
-
-weight_kg = GCW * 1000
-
-coefficients = {
-    "ICE-D": {"A": 0.0903, "B": -0.6404, "unit": "L/km", "lde": 1},
-    "ICE-NG": {"A": 0.0694, "B": -0.4650, "unit": "kgNG/km", "lde": 0.72},
-    "FCET": {"A": 0.01973, "B": -0.1233, "unit": "kgH2/km", "lde": 0.3},
-    "BET": {"A": 0.3814, "B": -2.6735, "unit": "kWh/km", "lde": 10}
-}
-
-def consumption(tech, weight_kg):
-    A = coefficients[tech]["A"]
-    B = coefficients[tech]["B"]
-    return A * np.log(weight_kg) + B
-
-
-rows = []
-
-for tech in coefficients.keys():
-
-    cons = consumption(tech, weight_kg)
-
-    rows.append({
-        "Technology": tech,
-        "GCW [t]": GCW,
-        "Consumption": round(cons, 3),
-        "Unit": coefficients[tech]["unit"],
-        "Value_LDE_100km": round(cons / coefficients[tech]["lde"] * 100, 2)
-    })
-
-
-df_consumption = pd.DataFrame(rows)
-st.dataframe(
-    df_consumption,
-    use_container_width=True,
-    hide_index=True
+selected_category = st.selectbox(
+    "Select category",
+    categories,
+    index=categories.index("HDT") if "HDT" in categories else 0,
+    key="category_selector"
 )
 
-technology_all=sorted(df["Technology"].unique())
-color_map = {m: palette_other[i % len(palette_other)] for i, m in enumerate(technology_all)}
+selected_year = st.selectbox(
+    "Select year",
+    years,
+    index=years.index(2026) if 2026 in years else 0,
+    key="year_selector"
+)
+
+# Filter
+df_filtered = df[(df["Category"] == selected_category) & (df["Year"] == selected_year)].copy()
+
+# Optional: order by value
+df_filtered = df_filtered.sort_values("Value_LDE", ascending=True)
 
 # Plot (horizontal bar)
 fig = go.Figure(
     go.Bar(
-        y=df_consumption["Technology"],
-        x=df_consumption["Value_LDE_100km"],
+        y=df_filtered["Technology"],
+        x=df_filtered["Value_LDE"],
         orientation="h",
         name="Value_LDE",
-        marker=dict(
-            color=[color_map[m] for m in df_consumption["Technology"]]
-        ),
+        marker=dict(color=palette_blue[0]),  # or any color you like
         hovertemplate="Technology: %{y}<br>Value_LDE: %{x:,.2f}<extra></extra>"
     )
 )
 
 fig.update_layout(
-    title=f"Value_LDE by Technology ",
+    title=f"Value_LDE by Technology — {selected_category} {selected_year}",
     xaxis_title="Value_LDE [litres/100km]",
     yaxis_title="Technology",
     template="plotly_white",
@@ -146,6 +116,19 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
+st.markdown("### 📋 Data table (filtered)")
 
+# Optional: reorder columns (keep all)
+cols = ["Category", "Technology", "Year", "Unit", "Value", "Conversion", "Value_LDE"]
+df_table = df_filtered[cols].copy()
 
+# Optional: formatting
+df_table["Value"] = df_table["Value"].round(3)
+df_table["Conversion"] = df_table["Conversion"].round(6)
+df_table["Value_LDE"] = df_table["Value_LDE"].round(3)
 
+st.dataframe(
+    df_table,
+    use_container_width=True,
+    hide_index=True
+)

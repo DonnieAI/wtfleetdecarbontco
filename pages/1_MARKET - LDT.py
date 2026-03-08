@@ -1,15 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
-from pathlib import Path
-import os
-from datetime import datetime
-import streamlit as st
-import plotly.graph_objects as go
-import plotly.express as px 
-from pathlib import Path
 from plotly.subplots import make_subplots
-import numpy as np
 
 st.set_page_config(page_title="Dashboard", layout="wide")
 from utils import apply_style_and_logo
@@ -55,12 +47,9 @@ color_map={
     "OTHERS":palette_green[1]
 }
 
-#✅------------------------DATA EXTRACTION-----------------------------------------------------
+#------------------------DATA EXTRACTION-----------------------------------------------------
 # 1. Read CSV with 2 header rows
 df_raw = pd.read_csv("data/LDT_ACEA_registration.csv", header=[0, 1])
-# Rename that multiindex column to ('country', '')
-first_col = df_raw.columns[0]
-#df_raw = df_raw.rename(columns={first_col: ('country', '')})
 # Set country as index and keep only the numeric data under a MultiIndex (powertrain, year)
 df = df_raw.set_index(('country', 'country'))
 # 2. Stack + melt -> long format: country, powertrain, year, registrations
@@ -81,7 +70,6 @@ df_long['year'] = df_long['year'].astype(int)
 df_long['registrations'] = pd.to_numeric(df_long['registrations'], errors='coerce').fillna(0)
 
 df_long = df_long[df_long['powertrain'].isin(['EV', 'HYBRID', 'OTHERS', 'PETROL', 'DIESEL'])]
-df_long_ZEV = df_long[df_long['powertrain'].isin(['EV', 'HYBRID', 'OTHERS'])]
 
 
 powertrain_order = ['DIESEL','PETROL','HYBRID','EV' ,'OTHERS']
@@ -119,12 +107,12 @@ df_plot = df_latest.pivot_table(
 # ------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------------
-st.title(f"🚐 NEW {SEGMENT} REGISTRATIONS")
+st.title(f"NEW {SEGMENT} REGISTRATIONS")
 st.markdown(f"""
-### 📈 New {SEGMENT} Registrations | Light commercials vehicles up to 3.5 t 
+### New {SEGMENT} Registrations | Light commercial vehicles up to 3.5 t
 """)
 st.markdown("""
-Source: ACEA — 2025 data
+Source: ACEA
 """)
 
 # ------------------------------------------------------------
@@ -147,7 +135,7 @@ for pt in powertrain_order:
 fig1.update_layout(
     barmode="stack",
     height=900,
-    title=f"LDT Registrations by Powertrain – {latest_year}",
+    title=f"LDT Registrations by Powertrain - {latest_year}",
     xaxis_title="Registrations",
     yaxis_title="Country",
     legend_title="Powertrain",
@@ -162,10 +150,15 @@ st.divider()  # <--- Streamlit's built-in separator
 #---------------------------------------------------------------------------------------------
 
 
-st.title(f"{SEGMENT} Registrations – Stacked by Powertrain")
+st.title(f"{SEGMENT} Registrations - Stacked by Powertrain")
 
-countries = sorted(df_long['country'].unique())
-selected_country = st.selectbox("Select country", countries,index=countries.index("Italy") )
+countries = sorted([c for c in df_long['country'].unique() if c not in excluded_regions])
+if not countries:
+    st.warning("No country-level data available to display.")
+    st.stop()
+
+default_index = countries.index("Italy") if "Italy" in countries else 0
+selected_country = st.selectbox("Select country", countries, index=default_index)
 
 d = df_long[df_long['country'] == selected_country]
 
@@ -187,7 +180,8 @@ total_df = (
 d2 = d.merge(total_df, on="year", how="left")
 
 # Compute share percentage
-d2["share_pct"] = (d2["registrations"] / d2["total_regs"]) * 100
+d2["share_pct"] = (d2["registrations"] / d2["total_regs"].replace(0, pd.NA)) * 100
+d2["share_pct"] = d2["share_pct"].fillna(0)
 
 # Ensure years are integers
 d2["year"] = d2["year"].astype(int)
@@ -210,7 +204,7 @@ fig2 = make_subplots(
 )
 
 # =====================================================
-# ░░░  TOP SUBPLOT: STACKED ABSOLUTE VALUES
+# TOP SUBPLOT: STACKED ABSOLUTE VALUES
 # =====================================================
 for pt in powertrain_order:
     if pt in d2['powertrain'].unique():
@@ -226,7 +220,7 @@ for pt in powertrain_order:
         )
 
 # =====================================================
-# ░░░  BOTTOM SUBPLOT: POWERTRAIN SHARE (% of TOTAL)
+# BOTTOM SUBPLOT: POWERTRAIN SHARE (% of TOTAL)
 # =====================================================
 # BOTTOM SUBPLOT: Share (%) AS LINE PLOT
 for pt in share_powertrains:
@@ -243,14 +237,14 @@ for pt in share_powertrains:
                 # --- Line style ---
                 line=dict(
                     width=2,
-                    dash="dash",          # ← dashed line
+                    dash="dash",          # dashed line
                     color=color_map[pt]
                 ),
 
                 # --- Marker style ---
                 marker=dict(
-                    symbol="diamond",     # ← diamond shape
-                    size=14,              # ← bigger markers
+                    symbol="diamond",     # diamond shape
+                    size=14,              # bigger markers
                     color=color_map[pt],
                     line=dict(width=1.1, color="black")   # optional elegant outline
                 ),

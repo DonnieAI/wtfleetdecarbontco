@@ -1,0 +1,264 @@
+{
+  "meta": {
+    "framework": "RED III / RED II style for transport fuels",
+    "fossil_fuel_comparator_gco2eq_per_mj": 94.0,
+    "notes": [
+      "This file is intended to be a fuel-layer / RED-layer input focused primarily on WTT values and fuel properties.",
+      "Final TTW and WTW per km must be calculated in the vehicle/technology layer using consumption and combustion factors.",
+      "red_counted is a flag indicating whether combustion CO2 would be counted as zero under RED-style accounting."
+    ]
+  },
+  "technology_to_allowed_fuels": {
+    "ICE-D": [
+      "fossil_diesel",
+      "hvo_uco",
+      "hvo_animal_fat_cat1_2"
+    ],
+    "ICE-NG": [
+      "fossil_ng_cng",
+      "fossil_ng_lng",
+      "biomethane_wet_manure_close_digestate_offgas",
+      "biomethane_biowaste_close_digestate_offgas",
+      "biomethane_maize_close_digestate_offgas"
+    ],
+    "ICE-H2": [
+      "hydrogen_rfnbo",
+      "hydrogen_fossil"
+    ],
+    "FCET": [
+      "hydrogen_rfnbo",
+      "hydrogen_fossil"
+    ],
+    "BET": [
+      "renewable_electricity",
+      "grid_electricity"
+    ]
+  },
+  "fuels": {
+    "fossil_diesel": {
+      "display_name": "Fossil Diesel",
+      "family": "fossil_liquid",
+      "red_annex_reference": "Annex III energy content; FQD-style upstream value",
+      "energy_content_by_weight_mj_per_kg": 43.0,
+      "energy_content_by_volume_mj_per_l": 36.0,
+      "combustion_gco2eq_per_mj": 73.2,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 21.9,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "Uses the RED transport fossil comparator for reference.",
+        "WTT upstream value is the EU guidance value used for diesel under the Fuel Quality Directive approach."
+      ]
+    },
+
+    "hvo_uco": {
+      "display_name": "HVO from waste cooking oil",
+      "family": "biofuel_liquid",
+      "red_annex_reference": "Annex III energy content for hydrotreated oil replacing diesel; Annex V pathway-specific values should be taken from certified/default RED pathway data",
+      "energy_content_by_weight_mj_per_kg": 44.0,
+      "energy_content_by_volume_mj_per_l": 34.0,
+      "combustion_gco2eq_per_mj": 70.8,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 13.0,
+      "red_counted": true,
+      "can_be_negative": false,
+      "notes": [
+        "Representative WTT placeholder for modelling.",
+        "Use certified RED actual/default values for the exact HVO production pathway."
+      ]
+    },
+
+    "hvo_animal_fat_cat1_2": {
+      "display_name": "HVO from animal fats (Cat. 1/2 rendering route)",
+      "family": "biofuel_liquid",
+      "red_annex_reference": "Annex III energy content for hydrotreated oil replacing diesel; pathway must match RED Annex V rules for category 1/2 animal by-products",
+      "energy_content_by_weight_mj_per_kg": 44.0,
+      "energy_content_by_volume_mj_per_l": 34.0,
+      "combustion_gco2eq_per_mj": 70.8,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 14.3,
+      "red_counted": true,
+      "can_be_negative": false,
+      "notes": [
+        "Representative WTT placeholder for modelling.",
+        "Use certified RED actual/default values for the exact HVO pathway."
+      ]
+    },
+
+    "fossil_ng_cng": {
+      "display_name": "Fossil Natural Gas (CNG)",
+      "family": "fossil_gas",
+      "red_annex_reference": "FQD-style upstream value; energy content should be filled from your chosen gas specification",
+      "energy_content_by_weight_mj_per_kg": null,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 9.1,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "EU guidance gives 9.1 gCO2eq/MJ as the upstream part for CNG."
+      ]
+    },
+
+    "fossil_ng_lng": {
+      "display_name": "Fossil Natural Gas (LNG)",
+      "family": "fossil_gas",
+      "red_annex_reference": "FQD-style upstream value; energy content should be filled from your chosen LNG specification",
+      "energy_content_by_weight_mj_per_kg": null,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 15.0,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "EU guidance gives 15.0 gCO2eq/MJ as the upstream part for LNG."
+      ]
+    },
+
+    "biomethane_wet_manure_close_digestate_offgas": {
+      "display_name": "Biomethane from wet manure - close digestate - off-gas combustion",
+      "family": "biomethane",
+      "red_annex_reference": "Annex VI biomethane for transport",
+      "energy_content_by_weight_mj_per_kg": 50.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": 206.0,
+      "ghg_emissions_saving_default_pct": 202.0,
+      "wtt_gco2eq_per_mj_default": -95.88,
+      "red_counted": true,
+      "can_be_negative": true,
+      "notes": [
+        "Negative WTT can occur under RED accounting because default savings exceed 100%."
+      ]
+    },
+
+    "biomethane_wet_manure_close_digestate_no_offgas": {
+      "display_name": "Biomethane from wet manure - close digestate - no off-gas combustion",
+      "family": "biomethane",
+      "red_annex_reference": "Annex VI biomethane for transport",
+      "energy_content_by_weight_mj_per_kg": 50.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": 190.0,
+      "ghg_emissions_saving_default_pct": 179.0,
+      "wtt_gco2eq_per_mj_default": -74.26,
+      "red_counted": true,
+      "can_be_negative": true,
+      "notes": [
+        "Negative WTT can occur under RED accounting because default savings exceed 100%."
+      ]
+    },
+
+    "biomethane_biowaste_close_digestate_offgas": {
+      "display_name": "Biomethane from biowaste - close digestate - off-gas combustion",
+      "family": "biomethane",
+      "red_annex_reference": "Annex VI biomethane for transport",
+      "energy_content_by_weight_mj_per_kg": 50.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": 86.0,
+      "ghg_emissions_saving_default_pct": 80.0,
+      "wtt_gco2eq_per_mj_default": 18.80,
+      "red_counted": true,
+      "can_be_negative": false,
+      "notes": [
+        "RED-based pathway value."
+      ]
+    },
+
+    "biomethane_maize_close_digestate_offgas": {
+      "display_name": "Biomethane from maize whole plant - close digestate - off-gas combustion",
+      "family": "biomethane",
+      "red_annex_reference": "Annex VI biomethane for transport",
+      "energy_content_by_weight_mj_per_kg": 50.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 56.1,
+      "ghg_emissions_saving_typical_pct": 68.0,
+      "ghg_emissions_saving_default_pct": 63.0,
+      "wtt_gco2eq_per_mj_default": 34.78,
+      "red_counted": true,
+      "can_be_negative": false,
+      "notes": [
+        "RED-based pathway value."
+      ]
+    },
+
+    "hydrogen_fossil": {
+      "display_name": "Hydrogen from non-renewable sources",
+      "family": "fossil_hydrogen",
+      "red_annex_reference": "Annex III energy content",
+      "energy_content_by_weight_mj_per_kg": 120.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 0.0,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 92,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "No single RED Annex V/VI default WTT value is assigned here.",
+        "Use supplier- or pathway-specific certified upstream value."
+      ]
+    },
+
+    "hydrogen_rfnbo": {
+      "display_name": "Renewable hydrogen (RFNBO)",
+      "family": "rfnbo_hydrogen",
+      "red_annex_reference": "Delegated Regulation (EU) 2023/1185 methodology",
+      "energy_content_by_weight_mj_per_kg": 120.0,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 0.0,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 28.2,
+      "max_wtw_gco2eq_per_mj_to_meet_70pct_savings": 28.2,
+      "red_counted": true,
+      "can_be_negative": false,
+      "notes": [
+        "Must be calculated from actual pathway data under the RFNBO delegated methodology."
+      ]
+    },
+
+    "renewable_electricity": {
+      "display_name": "Renewable electricity",
+      "family": "electricity",
+      "red_annex_reference": "Use actual certified electricity GHG intensity where available",
+      "energy_content_by_weight_mj_per_kg": null,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 0.0,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 0,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "Use actual electricity mix / PPA / GO-based upstream intensity according to modelling choice."
+      ]
+    },
+
+    "grid_electricity": {
+      "display_name": "Grid electricity",
+      "family": "electricity",
+      "red_annex_reference": "Use actual national or temporal grid intensity",
+      "energy_content_by_weight_mj_per_kg": null,
+      "energy_content_by_volume_mj_per_l": null,
+      "combustion_gco2eq_per_mj": 0.0,
+      "ghg_emissions_saving_typical_pct": null,
+      "ghg_emissions_saving_default_pct": null,
+      "wtt_gco2eq_per_mj_default": 62.5,
+      "red_counted": false,
+      "can_be_negative": false,
+      "notes": [
+        "Do not use one EU-wide default unless that is an explicit modelling assumption."
+      ]
+    }
+  }
+}
