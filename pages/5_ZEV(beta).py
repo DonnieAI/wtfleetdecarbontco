@@ -57,18 +57,8 @@ color_map={
 
 #✅------------------------DATA EXTRACTION-----------------------------------------------------
 # 1. Read CSV with 2 header rows
-df = pd.read_csv("data/ZEV_LowEmission_Models.csv", header=0).dropna()
-
-#segment_list = sorted(df_ev["segment"].unique())
-#df_ev["energy_kWh_clean"] = df_ev["energy_kWh"].fillna(0)
-
-#max_energy = df_ev["energy_kWh_clean"].max()
-
-#if max_energy > 0:
-#    df_ev["marker_size"] = 10 + 30 * (df_ev["energy_kWh_clean"] / max_energy)
-#else:
-#    df_ev["marker_size"] = 10
-
+#df = pd.read_csv("data/ZEV_LowEmission_Models.csv", header=0).dropna()
+df = pd.read_csv("data/ZEV_LowEmission_Models.csv", header=0)
 # ------------------------------------------------------------
 # Streamlit output
 # ------------------------------------------------------------
@@ -76,12 +66,11 @@ df = pd.read_csv("data/ZEV_LowEmission_Models.csv", header=0).dropna()
 #-----------------------------------------------------------------------------------------------------
 st.title(f"🚚  ZERO EMISSIONS & LOW EMISSIONS VEHICLES")
 st.markdown(f"""
-### 📈 sdfdfdfs  
+### 📈 MARKET MODELS COMPARISON 
 """)
 st.markdown("""
 Source: ACEA — 2025 data
 """)
-
 
 # 1) Segment selector
 segments = sorted(df["SEGMENT"].unique())
@@ -129,7 +118,7 @@ for m in sorted(df_f["TECHNOLOGY"].unique()):
 
 # 5) Layout
 fig_ev.update_layout(
-    title=f"Range vs Max GVW — Segment: {selected_segment}",
+    title=f"Range vs Energy — Segment: {selected_segment}",
     xaxis_title="Energy (kWh)",
     yaxis_title="Max Range (km)",
     template="plotly_white",

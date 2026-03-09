@@ -16,8 +16,17 @@ from utils import apply_style_and_logo
 
 apply_style_and_logo()
 
+#----------------------------------
+#IMPORTING USERR DEFINED FUNCTIONS
+import importlib
+import supporting_functions as sf
+importlib.reload(sf)
 
-SEGMENT="LDT"
+#----------------------------------
+#----------------------------------
+
+
+#SEGMENT="LDT"
 
 palette_blue = [
     "#A7D5F2",  # light blue
@@ -77,7 +86,6 @@ data_ICE_D_df["capex_fixed"]=data_ICE_D_df["RestOfTruckCostTotal"]
 #ICE-NG
 data_ICE_NG_df=pd.read_csv("data/vehicle_data_full_data_set_ICE-NG.csv", header=[0])
 data_ICE_NG_df["capex_energy"]=data_ICE_NG_df["FuelTankCost"]*data_ICE_NG_df["TankSize"]
-
 data_ICE_NG_df["capex_power"]=data_ICE_NG_df["PowerTrainCost"]*data_ICE_NG_df["PowerTrain"]
 data_ICE_NG_df["capex_fixed"]=data_ICE_NG_df["RestOfTruckCostTotal"]
 
@@ -96,47 +104,19 @@ data_BET_df["capex_energy"]=data_BET_df["BatteryCost"]*data_BET_df["BatterySize"
 data_BET_df["capex_power"]=data_BET_df["PowerTrainCost"]*data_BET_df["PowerTrain"]
 data_BET_df["capex_fixed"]=data_BET_df["RestOfTruckCostTotal"]
 
-
+#CONCATENATE ALL
 
 data_all_df = pd.concat([data_ICE_D_df, data_ICE_NG_df,data_FCET_df,data_BET_df], ignore_index=True)
+data_all_df.to_csv("data/capex_generated.data")
 
-def capex_vehicle_calculator(df_in: pd.DataFrame,vehicle:str, year:int) -> pd.DataFrame:
-    
-    """
-    The phases space is made by Category, Year and technology
-    """
-    df = df_in.copy()  # avoid mutating the caller's DataFrame
-    df = df[(df["Category"] == vehicle) & (df["Year"] == year)]
-    # Categorical for the first two columns
-    df[["Category", "Technology"]] = df[["Category", "Technology"]].astype("category")
-    # Convert all other columns to float (coerce in case there are stray strings)
-    numeric_cols = df.columns.difference(["Category", "Technology"])
-    df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
-    # Create capex columns
-    
-    df = (
-        df
-       # .assign(
-        #    capex_energy = df["Energy_Storage_Cost"] * df["Energy"],
-        #    capex_power  = df["Powertrain_Cost"]    * df["Power"],
-        #    capex_fixed  = df["Rest_of_Truck_Cost"] + df["Other_cost"],
-        #)
-        .assign(
-            capex_total = lambda d: d["capex_energy"] + d["capex_power"] + d["capex_fixed"]
-        )
-    )
-    subset=["Category","Year","Technology","capex_energy","capex_power","capex_fixed","capex_total"]
-    subset_df=df[subset]
-    
-    return subset_df
 
 #-------------------------------
-st.title(f"🚚  ZERO EMISSIONS VEHICLES - CAPEX")
+st.title(f"🚚  VEHICLES - CAPEX")
 st.markdown(f"""
 ### 📈 CAPEX  
 """)
 st.markdown("""
-Source: ACEA — 2025 data
+Source: Wavetransition elaboration
 """)
 
 selected_category = st.selectbox(
@@ -153,9 +133,9 @@ selected_year = st.selectbox(
     key="year_selector"
 )
 
-
-df_filtered=capex_vehicle_calculator(data_all_df,selected_category,selected_year )
-
+#--------------------------------------------------------------------------------
+df_filtered=sf.capex_calculator(data_all_df,selected_category,selected_year )
+#--------------------------------------------------------------------------------
 # Assume df_filtered already contains the filtered HDT 2025 data
 df_plot = df_filtered.copy()
 num_cols = df_plot.select_dtypes(include="number").columns
@@ -232,11 +212,44 @@ fig.add_trace(
 st.plotly_chart(fig, use_container_width=True)
 
 #df_plot = df_plot.astype(int)
-
+#--------------------------------------------------------------------------------------------
+st.divider()  # <--- Streamlit's built-in separator
+#-------------------------------------------------------
 st.dataframe(
     df_plot,
     use_container_width=True,
     hide_index=True
 )
+#--------------------------------------------------------------------------------------------
+st.divider()  # <--- Streamlit's built-in separator
+#-------------------------------------------------------
 
+col1, col2, col3 = st.columns(3)
 
+with col1:
+    st.subheader("Purchase")
+    st.markdown("""
+            Vehicle purchase via direct  payment  
+            It provides for the transfer of  ownership and assumption of  
+            the risk related to the  residual value in the resale at  the end of the period of use    
+                
+                
+    """)
+
+with col2:
+    st.subheader("Leasing")
+    st.markdown("""
+            Financial contract with monthly  fee for use of the vehicle. 
+            No transfer of ownership, net of  potential final redemption  payment. 
+            Operating costs borne by the user    
+                
+                
+    """)
+with col3:
+     st.subheader("Long-term rental")
+     st.markdown("""
+            Formula with fixed monthly fee  
+            No transfer of ownership  
+            Main operating costs borne by the  rental company (excluding fuel and  extraordinary maintenance)
+                
+    """)

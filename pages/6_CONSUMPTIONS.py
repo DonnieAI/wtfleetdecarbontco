@@ -14,8 +14,12 @@ from utils import apply_style_and_logo
 apply_style_and_logo()
 
 
-SEGMENT="LDT"
+#IMPORTING USERR DEFINED FUNCTIONS
+import importlib
+import supporting_functions as sf
+importlib.reload(sf)
 
+#-------------------------------------
 palette_blue = [
     "#A7D5F2",  # light blue
     "#94CCE8",
@@ -53,9 +57,17 @@ color_map={
 }
 
 
+coefficients = {
+        "ICE-D": {"A": 0.0903, "B": -0.6404, "unit": "L/km", "lde": 1},
+        "ICE-NG": {"A": 0.0694, "B": -0.4650, "unit": "kgNG/km", "lde": 0.72},
+        "FCET": {"A": 0.01973, "B": -0.1233, "unit": "kgH2/km", "lde": 0.3},
+        "BET": {"A": 0.3814, "B": -2.6735, "unit": "kWh/km", "lde": 10}
+    }
+
+
 #✅------------------------DATA EXTRACTION-----------------------------------------------------
 
-df = pd.read_csv("data/fuel_consumption_manually.csv", header=[0])
+df = pd.read_csv("data/FuelConsumptionManually.csv", header=[0])
 
 categories = sorted(df["Category"].dropna().unique().tolist())
 years = sorted(df["Year"].dropna().unique().tolist())
@@ -80,42 +92,18 @@ GCW = st.slider(
         key="GCW"
     )
 
-weight_kg = GCW * 1000
-
-coefficients = {
-    "ICE-D": {"A": 0.0903, "B": -0.6404, "unit": "L/km", "lde": 1},
-    "ICE-NG": {"A": 0.0694, "B": -0.4650, "unit": "kgNG/km", "lde": 0.72},
-    "FCET": {"A": 0.01973, "B": -0.1233, "unit": "kgH2/km", "lde": 0.3},
-    "BET": {"A": 0.3814, "B": -2.6735, "unit": "kWh/km", "lde": 10}
-}
-
-def consumption(tech, weight_kg):
-    A = coefficients[tech]["A"]
-    B = coefficients[tech]["B"]
-    return A * np.log(weight_kg) + B
+#weight_kg = GCW * 1000   #must be in kg for the fucntion EC=a*ln(w)+b
 
 
-rows = []
-
-for tech in coefficients.keys():
-
-    cons = consumption(tech, weight_kg)
-
-    rows.append({
-        "Technology": tech,
-        "GCW [t]": GCW,
-        "Consumption": round(cons, 3),
-        "Unit": coefficients[tech]["unit"],
-        "Value_LDE_100km": round(cons / coefficients[tech]["lde"] * 100, 2)
-    })
+df_consumption = sf.consumption_calculator(GCW,coefficients)
 
 
-df_consumption = pd.DataFrame(rows)
+
 st.dataframe(
-    df_consumption,
-    use_container_width=True,
-    hide_index=True
-)
+            df_consumption,
+            use_container_width=True,
+            hide_index=True
+        )
 
 technology_all=sorted(df["Technology"].unique())
 color_map = {m: palette_other[i % len(palette_other)] for i, m in enumerate(technology_all)}
