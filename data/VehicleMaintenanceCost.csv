@@ -1,4 +1,4 @@
-﻿Category,Year,Technology,Route,Weight,MaintenanceCost
+﻿Category,Year,Technology,Route,Weight,MaintenanceCostEurKm
 LDT,2026,ICE-D,Urban,3.5,0.118
 LDT,2026,ICE-NG,Urban,3.5,0.118
 LDT,2026,BET,Urban,3.5,0.065

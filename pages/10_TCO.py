@@ -3,39 +3,21 @@ import plotly.graph_objects as go
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
-import streamlit as st
-import plotly.graph_objects as go
-import plotly.express as px 
 from plotly.subplots import make_subplots
 import numpy as np
 
 st.set_page_config(page_title="Dashboard", layout="wide")
 from utils import apply_style_and_logo
-from utils import tco_capex_vehicle_calculator
-from utils import tco_fuel_consumption_manually_calculator
-from utils import yearly_fuel_cost
-from utils import create_tco_template_from_data
-from utils import apply_driver_wages
-
 apply_style_and_logo()
-#import importlib, utils
-#importlib.reload(utils)
-import importlib
 
 #----------------------------------
 #IMPORTING USERR DEFINED FUNCTIONS
 import importlib
 import supporting_functions as sf
 importlib.reload(sf)
-#from supporting_functions import capex_calculator
-#from supporting_functions import tco_calculator
-#from supporting_functions import residual_value_calculator
-
 
 #----------------------------------
 #----------------------------------
-
-
 
 palette_blue = [
     "#A7D5F2",  # light blue
@@ -148,23 +130,23 @@ current_selector = (selected_vehicle, selected_year)
 if "last_selector" not in st.session_state:
     st.session_state["last_selector"] = current_selector
 
-if "yearly_mileage" not in st.session_state:
-    st.session_state["yearly_mileage"] = default_mileage
+if "YearlyMileageKm" not in st.session_state:
+    st.session_state["YearlyMileageKm"] = default_mileage
 
 if st.session_state["last_selector"] != current_selector:
-    st.session_state["yearly_mileage"] = default_mileage
+    st.session_state["YearlyMileageKm"] = default_mileage
     st.session_state["last_selector"] = current_selector
 
 with col4:
-    yearly_mileage = st.number_input(
+    YearlyMileageKm = st.number_input(
         "Yearly mileage [km]",
         min_value=5000,
         max_value=1000000,
         step=1000,
-        key="yearly_mileage"
+        key="YearlyMileageKm"
     )
 
-yearly_mileage=156000
+#YearlyMileageKm=156000
 filtered_df = df[(df["Category"] == selected_vehicle) & (df["Year"] == selected_year)]
 st.dataframe(
     filtered_df,
@@ -178,29 +160,31 @@ df_tco_master = sf.tco_starting_template_builder(
             country=selected_country,
             category=selected_vehicle,
             year=selected_year,
-            annual_km_user=yearly_mileage
+            YearlyMileageKm=YearlyMileageKm
     )
 #----------------------------------------------------------------
+
+
+
 
 #--------------------------------------------------------------------------------------------
 st.divider()  # <--- Streamlit's built-in separator
 #-------------------------------------------------------
 st.subheader("🛣️ General Parameters")
-
-col1, col2, col3,col4 = st.columns(4)
+col1, col2, col3,col4,col5 = st.columns(5)
 with col1:
-    st.subheader("Time [years]")
-    T = st.slider(
+    #st.subheader("Time [years]")
+    VehicleLifeY = st.slider(
         "Time [years]",
         min_value=1,
         max_value=20,
         value=7,
         step=1,
-        key="T"
+        key="VehicleLifeY"
     )
     
 with col2:   
-    st.subheader("WACC [%]")
+    #st.subheader("WACC [%]")
     WACC = st.slider(
         "WACC [%]",
         min_value=1.0,
@@ -211,7 +195,7 @@ with col2:
     )
     
 with col3:   
-    st.subheader("TOLLS EURO 0-VI [EUR/100 km]")
+    #st.subheader("TOLLS EURO 0-VI [EUR/100 km]")
     tolls_tarif_euro = st.slider(
         "TOLLS EURO 0-VI",
         min_value=0.0,
@@ -222,7 +206,7 @@ with col3:
     )
 
 with col4:   
-    st.subheader("TOLLS  ZEV [EUR/100 km]")
+    #st.subheader("TOLLS  ZEV [EUR/100 km]")
     tolls_tarif_zev = st.slider(
         "TOLLS  ZEV",
         min_value=0.0,
@@ -233,25 +217,28 @@ with col4:
     )
 
 
+df_tco_master["VehicleLifeY"]=VehicleLifeY
+
+
 #-1️⃣-----------------calculate & merge total_capex
 #df_capex = tco_capex_vehicle_calculator(df, selected_vehicle, selected_year)
 data_all_df=pd.read_csv("data/capex_generated.data")
 df_capex=sf.capex_calculator(data_all_df,selected_vehicle,selected_year )
 df_tco_master = df_tco_master.merge(
-            df_capex[["Category", "Technology", "Year", "capex_total"]],
+            df_capex[["Category", "Technology", "Year", "TotalCapexEur"]],
             on=["Category", "Technology", "Year"],
             how="left",
             #suffixes=("", "_new")
 )
 # Replace the empty column with the computed one
-#df_tco_master["capex_total"] = (
+#df_tco_master["TotalCapexEur"] = (
  #   pd.to_numeric(df_tco_master["capex_total_new"], errors="coerce")
   #  .round(0)
    # .astype("Int64")   # nullable integer (safe)
 #)
 
 #-1️⃣-----------------calculate & merge residual value
-df_tco_master=sf.residual_value_calculator(1,0.23,df_tco_master,T)
+df_tco_master=sf.residual_value_calculator(1,0.23,df_tco_master,VehicleLifeY)
 #df_tco_master.drop(columns=["capex_total_new"], inplace=True)
 #----------------------------------------------------------------
 
@@ -259,17 +246,23 @@ df_tco_master=sf.residual_value_calculator(1,0.23,df_tco_master,T)
 #1️⃣-----------------calculate insurance cost based on residual value
 df_tco_master=sf.insurance_calculator(df_tco_master,0.05)
 
-#1️⃣-----------------calculate insurance cost based on residual value
+
+
+#1️⃣-----------------calculate maintenance cost
 df_maintenance = pd.read_csv("data/VehicleMaintenanceCost.csv")   #EUR/km
 df_maintenance = df_maintenance[
     (df_maintenance["Category"] == selected_vehicle) &
     (df_maintenance["Year"] == selected_year)
     ]
-df_tco_master = df_tco_master.merge(
-            df_maintenance[["Category", "Technology", "Year" ,"MaintenanceCost"]],
-            on=["Category", "Technology", "Year"],
-            how="left",
-)
+
+df_tco_master=sf.maintenance_calculator(df_tco_master,df_maintenance)
+
+
+#df_tco_master = df_tco_master.merge(
+ #           df_maintenance[["Category", "Technology", "Year" ,"MaintenanceCostEurKm"]],
+  #          on=["Category", "Technology", "Year"],
+   #         how="left",
+#)
 
 
 #-1️⃣-----------------calculate & merge consumption
@@ -293,12 +286,12 @@ df_tco_master = df_tco_master.merge(
 #--------------------------------------------------------------------------------------------
 st.divider()  # <--- Streamlit's built-in separator
 #-------------------------------------------------------
-st.subheader("🛣️ Fuel Price")
+st.subheader("🛣️ Prices")
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4,col5 = st.columns(5)
 
 with col1:
-    st.subheader("Diesel Price [EUR/l]")
+    #st.subheader("Diesel Price [EUR/l]")
     diesel_price = st.slider(
         "Diesel Price (EUR/l)",
         min_value=1.0,
@@ -309,7 +302,7 @@ with col1:
     )
 
 with col2:
-    st.subheader("LNG Price [EUR/kg]")
+    #st.subheader("LNG Price [EUR/kg]")
     lng_price = st.slider(
         "LNG Price (EUR/kg)",
         min_value=1.0,
@@ -320,7 +313,7 @@ with col2:
     )
 
 with col3:
-    st.subheader("Electricity Price [EUR/kWh]")
+    #st.subheader("Electricity Price [EUR/kWh]")
     electricity_price = st.slider(
         "Electricity Price (EUR/kWh)",
         min_value=0.1,
@@ -331,7 +324,7 @@ with col3:
     )
 
 with col4:
-    st.subheader("H₂ Price [EUR/kg]")
+    #st.subheader("H₂ Price [EUR/kg]")
     h2_price = st.slider(
         "H₂ Price (EUR/kg)",
         min_value=2.0,
@@ -341,6 +334,18 @@ with col4:
         key="h2_price"
     )
     
+with col5:
+    #st.subheader("H₂ Price [EUR/kg]")
+    ETS_CO2_Price = st.slider(
+        "CO2 ETS Price (EUR/tCO2)",
+        min_value=0.0,
+        max_value=250.0,
+        value=45.0,
+        step=5.0,
+        key="CO2price"
+    )
+
+
 
 #2️⃣FUEL COSTS------------------------------
 df_fuel_cost = sf.tco_yearly_fuel_cost_calculator(
@@ -349,18 +354,18 @@ df_fuel_cost = sf.tco_yearly_fuel_cost_calculator(
                 lng_price,
                 electricity_price,
                 h2_price,
-                yearly_mileage
+                YearlyMileageKm
         )
 
 
 df_tco_master = df_tco_master.merge(
-            df_fuel_cost[["Category", "Technology", "annual_fuel_cost"]],
+            df_fuel_cost[["Category", "Technology", "AnnualFuelCostEur"]],
             on=["Category", "Technology" ],
             how="left",
             #suffixes=("", "_new")
         )
 # Replace the empty column with the computed one
-#df_tco_master["annual_fuel_cost"] = df_tco_master["annual_fuel_cost_new"]
+#df_tco_master["AnnualFuelCostEur"] = df_tco_master["annual_fuel_cost_new"]
 # Drop helper column
 #df_tco_master.drop(columns=["annual_fuel_cost_new"], inplace=True)
 #----------------------------------------------------------------
@@ -373,17 +378,27 @@ toll_map = {
         "BET": tolls_tarif_zev,
         "FCET": tolls_tarif_zev
 }
-df_tco_master["annual_toll_cost"] = df_tco_master["Technology"].map(toll_map)*df_tco_master["annual_km_user"]/100
+df_tco_master["AnnualTollCostEur"] = df_tco_master["Technology"].map(toll_map)*df_tco_master["YearlyMileageKm"]/100
 
 
 #4️⃣WAGES-----------------------------
 df_wages = pd.read_csv(tco_data_files[2], header=[0])   #Unitary_Wage_km
-df_tco_master = apply_driver_wages(df_tco_master, df_wages)
+df_tco_master = sf.driver_wages_calculator(df_tco_master, df_wages)
+
+#4️⃣CO2 ETS IMPACT-----------------------------
+#ONLY FOR DIESEL
+df_tco_master["ETSCO2CostEur"] = np.where(
+    df_tco_master["Technology"].eq("ICE-D"),
+    df_tco_master["FuelConsumption"] * 2.68 /100 * ETS_CO2_Price*df_tco_master["YearlyMileageKm"]/1000,  
+    np.nan
+)
+df_tco_master["ETSCO2CostEur"] = df_tco_master["ETSCO2CostEur"].round().astype("Int64")
 
 #-------------------------
 #the core of the calculation
 #----------------------------------------------
-df_tco=sf.tco_calculator(WACC,T,df_tco_master)
+df_tco_master = df_tco_master.drop(columns=["Unitary_Wage_km","ResidualValuePct","FuelConsumption","MaintenanceCostEurKm"])
+df_tco=sf.tco_calculator(WACC,VehicleLifeY,df_tco_master)
 #----------------------------------------------
 df_tco.to_csv("tco.csv")
 
@@ -447,6 +462,15 @@ fig.add_trace(
     )
 )
 
+fig.add_trace(
+    go.Bar(
+        y=df_tco["Technology"],
+        x=df_tco["TCO_ETS_CO2_per_km"],
+        name="ETS CO2",
+        orientation="h",
+        marker=dict(color=palette_other[2]),
+    )
+)
 
 
 
